@@ -14,10 +14,15 @@ int do_hwrev(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	unsigned int hwrev_adc;
 
+#if 0
+
 	if (adc_channel_single_shot("saradc", 0, &hwrev_adc)) {
 		printf("board hw rev failed\n");
 		return CMD_RET_FAILURE;
 	}
+#else
+    hwrev_adc = 676;
+#endif
 
 	/* GO2 rev 1.1 */
 	if (check_range(655, 695, hwrev_adc)) {
@@ -40,8 +45,7 @@ int do_hwrev(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		env_set("dtb_name", "rk3326-odroidgo2-linux.dtb");
 	}
 
-	printf("adc0 (hw rev) %d\n", hwrev_adc);
-
+    printf("sd boot: adc0 (hw rev) %d\n", hwrev_adc);
 	return CMD_RET_SUCCESS;
 }
 
