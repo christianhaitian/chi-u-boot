@@ -14,7 +14,7 @@
 
 #define PWR_LED_GPIO	18	/* GPIO0_C2 */
 #define DC_DET_GPIO	11	/* GPIO0_B3 */
-#define CHG_LED_GPIO	13	/* GPIO0_B5 */
+#define CHG_LED_GPIO	106	/* GPIO3_B2 */
 
 void board_chg_led(void)
 {

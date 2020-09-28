@@ -308,7 +308,7 @@ static void autowakeup_timer_uninit(void)
 #ifdef CONFIG_DRM_ROCKCHIP
 #if defined(CONFIG_PLATFORM_ODROID_GOADV)
 extern unsigned char disp_offs;
-static int bmp_dev;
+static int bmp_dev = 0xff;
 static void charge_show_bmp(int idx, struct udevice *fg)
 {
 	unsigned long bmp_mem, bmp_copy;
@@ -408,7 +408,9 @@ static int leds_update(struct udevice *dev, int soc)
 	}
 
 	if (priv->led_full) {
-		ledst = (soc == 100) ? LEDST_ON : LEDST_OFF;
+        printf("%s led full\n", __func__);
+		//ledst = (soc == 100) ? LEDST_ON : LEDST_OFF;
+		ledst = (soc == 100) ? LEDST_OFF : LEDST_ON;
 		ret = led_set_state(priv->led_full, ledst);
 		if (ret) {
 			printf("set charging full led %s failed, ret=%d\n",

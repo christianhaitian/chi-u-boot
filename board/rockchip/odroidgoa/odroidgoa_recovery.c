@@ -110,6 +110,7 @@ void board_odroid_recovery(void)
 		odroid_wait_pwrkey();
 	}
 
+#if 0
 	/* check manufacture file */
 	ret = run_command("fatload mmc 1:1 $loadaddr manufacture", 0);
 	if (ret != CMD_RET_SUCCESS) {
@@ -122,13 +123,16 @@ void board_odroid_recovery(void)
 	} else {
 		sprintf(cmd, "poweroff");
 	}
+#else
+		sprintf(cmd, "poweroff");
+#endif
 
 	/* recovery done */
 	loop = 3;
 	while (loop) {
 		sprintf(str, "recovery done! system %s in %d sec", cmd, loop);
 		/* there is no vfat mbr in sd card now */
-		odroid_display_status(LOGO_MODE_RECOVERY, LOGO_STORAGE_ANYWHERE, str);
+		odroid_display_status(LOGO_MODE_RECOVERY, LOGO_STORAGE_SDCARD, str);
 		mdelay(1000);
 		loop--;
 	};

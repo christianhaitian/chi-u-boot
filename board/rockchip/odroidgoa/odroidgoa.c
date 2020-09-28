@@ -21,7 +21,7 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-#define ALIVE_LED_GPIO	17 /* GPIO0_C1 */
+#define ALIVE_LED_GPIO	107 /* GPIO3_B3 */
 #define WIFI_EN_GPIO	110 /* GPIO3_B6 */
 
 unsigned char disp_offs = 0;
@@ -52,20 +52,22 @@ void board_wifi_en(void)
 
 int board_check_autotest(void)
 {
-	u32 stater, statel;
+	u32 statel, statel2;
 	unsigned int delay = 1000; /* long key down for 1 sec */
 
+printf("%s ...\n", __func__);
 	while (delay) {
-		stater = key_read(BTN_TR);
 		statel = key_read(BTN_TL);
+        statel2 = key_read(BTN_TL2);
 
-		if ((stater != KEY_PRESS_DOWN) || (statel != KEY_PRESS_DOWN))
+        if ((statel != KEY_PRESS_DOWN) || (statel2 != KEY_PRESS_DOWN))
 			return -1;
 
 		mdelay(50);
 		delay -= 50;
 	}
-
+    
+    printf("%s will be go\n", __func__);
 	return 0;
 }
 
@@ -117,18 +119,19 @@ void board_init_switch_gpio(void)
 	static struct px30_grf * const grf = (void *)GRF_BASE;
 
 	/* set iomux */
-	rk_clrreg(&grf->gpio1al_iomux, 0x0f00);
-	rk_clrreg(&grf->gpio1ah_iomux, 0xfff0);
-	rk_clrreg(&grf->gpio1bh_iomux, 0xffff);
+	//rk_clrreg(&grf->gpio1al_iomux, 0x0f00);
+	//rk_clrreg(&grf->gpio1ah_iomux, 0xfff0);
+    rk_clrreg(&grf->gpio1bh_iomux, 0xffff);//gpio1b4\5\6\7
+
+	rk_clrreg(&grf->gpio2bl_iomux, 0xffff);//gpio2b0\1\2\3
+	rk_clrreg(&grf->gpio2al_iomux, 0xff0f);//gpio2a0\2\3
+	rk_clrreg(&grf->gpio2ah_iomux, 0xffff);//gpio2a4\5\6\7
+    
 
 	/* set pad pull control */
-	rk_clrsetreg(&grf->gpio1b_p, 0xff00, 0x5500);
-	rk_clrsetreg(&grf->gpio1a_p, 0xfcc0, 0x5440);
-	rk_clrsetreg(&grf->gpio2a_p, 0xffff, 0x5555);
-	if (is_odroidgo3())
-		rk_clrsetreg(&grf->gpio3b_p, 0xC33C, 0x4114);
-	else
-		rk_clrsetreg(&grf->gpio3b_p, 0xC030, 0x4010);
+    rk_clrsetreg(&grf->gpio1b_p, 0xff00, 0x5500);//gpio1b4/5/6/7 weak 1(pull-up)
+	rk_clrsetreg(&grf->gpio2b_p, 0x00ff, 0x0055);//gpio2b0\1\2\3
+	rk_clrsetreg(&grf->gpio2a_p, 0xfff3, 0x5551);//gpio2a0\2\3 4\5\6\7
 }
 
 void board_check_mandatory_files(void)
@@ -143,10 +146,10 @@ void board_check_mandatory_files(void)
 	}
 
 	/* check launcher in ext4 fs of sd card */
-	if (file_exists("mmc", "1:2", "/usr/local/bin/emulationstation/emulationstation",
+	if (!file_exists("mmc", "1:2", "/usr/local/bin/emulationstation/emulationstation",
 				FS_TYPE_EXT)) {
 		lcd_setfg_color("white");
-		lcd_printf(0, 0, 1, "[ GO Advanced EMULATION Image ]");
+        lcd_printf(0, 0, 1, "[ EmuELEC Gameforce Chi ]");
 	}
 
 	return;
@@ -164,8 +167,8 @@ int rk_board_late_init(void)
 	board_alive_led();
 
 	/* set wifi_en as default high */
-	if (!is_odroidgo3())
-		board_wifi_en();
+	//if (!is_odroidgo3())
+		//board_wifi_en();
 
 	/* set uart2-m1 port as a default debug console */
 	board_debug_uart2m1();
