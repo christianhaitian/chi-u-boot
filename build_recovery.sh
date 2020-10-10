@@ -25,16 +25,16 @@ pack_spi_full_image()
 	dd if=./arch/arm/dts/odroidgo2-kernel-v11.dtb of=${OUT}/spi_recovery.img bs=512 seek=8192 count=200 conv=fsync,notrunc
 	# ODROID-GO2 bmp images
 	dd if=${IMAGES}/logo_hardkernel.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=8392 conv=fsync,notrunc
-	dd if=${IMAGES}/low_battery.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=8792 conv=fsync,notrunc
-	dd if=${IMAGES}/recovery.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=9192 conv=fsync,notrunc
-	dd if=${IMAGES}/system_error.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=9592 conv=fsync,notrunc
-	dd if=${IMAGES}/no_sdcard.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=9992 conv=fsync,notrunc
+	dd if=${IMAGES}/low_battery.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=9592 conv=fsync,notrunc
+	dd if=${IMAGES}/recovery.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=9992 conv=fsync,notrunc
+	dd if=${IMAGES}/system_error.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=10392 conv=fsync,notrunc
+	dd if=${IMAGES}/no_sdcard.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=10792 conv=fsync,notrunc
 
-	dd if=${IMAGES}/battery_0.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=10392 conv=fsync,notrunc
-	dd if=${IMAGES}/battery_1.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=10792 conv=fsync,notrunc
-	dd if=${IMAGES}/battery_2.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11192 conv=fsync,notrunc
-	dd if=${IMAGES}/battery_3.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11592 conv=fsync,notrunc
-	dd if=${IMAGES}/battery_fail.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11992 conv=fsync,notrunc
+	dd if=${IMAGES}/battery_0.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11192 conv=fsync,notrunc
+	dd if=${IMAGES}/battery_1.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11592 conv=fsync,notrunc
+	dd if=${IMAGES}/battery_2.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=11992 conv=fsync,notrunc
+	dd if=${IMAGES}/battery_3.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=12392 conv=fsync,notrunc
+	dd if=${IMAGES}/battery_fail.bmp.gz of=${OUT}/spi_recovery.img bs=512 seek=12792 conv=fsync,notrunc
 
 	# ODROID-GO3 dtb
 	dd if=./arch/arm/dts/odroidgo3-kernel.dtb of=${OUT}/spi_recovery.img bs=512 seek=12392 count=200 conv=fsync,notrunc
@@ -73,8 +73,7 @@ pack_recovery_sdcard_img()
 	sudo cp ${IMAGES}/system_error.bmp ${MNT}
 	sudo cp ${IMAGES}/no_sdcard.bmp ${MNT}
 	sudo cp ${IMAGES}/low_battery.bmp ${MNT}
-	sudo cp ./arch/arm/dts/odroidgo2-kernel.dtb ${MNT}/rk3326-odroidgo2-linux.dtb
-	sudo cp ./arch/arm/dts/odroidgo2-kernel-v11.dtb ${MNT}/rk3326-odroidgo2-linux-v11.dtb
+	sudo cp ./arch/arm/dts/odroidgo2-kernel-v11.dtb ${MNT}/rk3326-gameforce-linux-v11.dtb
 
 	# ODROID-GO3 rev1.0
 	sudo cp ${IMAGES}/recovery_b.bmp ${MNT}

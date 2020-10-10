@@ -27,7 +27,7 @@ int do_hwrev(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	/* GO2 rev 1.1 */
 	if (check_range(655, 695, hwrev_adc)) {
 		env_set("hwrev", "v11");
-		env_set("dtb_name", "rk3326-odroidgo2-linux-v11.dtb");
+		env_set("dtb_name", "rk3326-gameforce-linux-v11.dtb");
 	}
 	/* GO2 rev 1.0 */
 	else if (check_range(816, 896, hwrev_adc)) {
